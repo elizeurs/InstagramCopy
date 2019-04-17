@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		758E307722669F6800130C52 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758E307622669F6800130C52 /* SignUpVC.swift */; };
 		75E31E6B22655F6300C6AC1D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E31E6A22655F6300C6AC1D /* AppDelegate.swift */; };
 		75E31E7022655F6300C6AC1D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75E31E6E22655F6300C6AC1D /* Main.storyboard */; };
 		75E31E7222655F6400C6AC1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75E31E7122655F6400C6AC1D /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		758E307622669F6800130C52 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		75E31E6722655F6300C6AC1D /* InstagramCopy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramCopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75E31E6A22655F6300C6AC1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75E31E6F22655F6300C6AC1D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				75E31E7F2265600C00C6AC1D /* LoginVC.swift */,
+				758E307622669F6800130C52 /* SignUpVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				758E307722669F6800130C52 /* SignUpVC.swift in Sources */,
 				75E31E802265600C00C6AC1D /* LoginVC.swift in Sources */,
 				75E31E83226566CF00C6AC1D /* Extensions.swift in Sources */,
 				75E31E6B22655F6300C6AC1D /* AppDelegate.swift in Sources */,

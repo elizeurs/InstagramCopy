@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
     
     window = UIWindow()
-    window?.rootViewController = LoginVC()
+    window?.rootViewController = UINavigationController(rootViewController: LoginVC())
     
     return true
   }
