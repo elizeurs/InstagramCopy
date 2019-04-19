@@ -9,11 +9,14 @@
 import UIKit
 import Firebase
 
-class SignUpVC: UIViewController {
+class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  
+  var imageSelected = false
   
   let plusPhotoBtn: UIButton = {
     let button = UIButton(type: .system)
     button.setImage(#imageLiteral(resourceName: "plus_photo").withRenderingMode(.alwaysOriginal), for: .normal)
+    button.addTarget(self, action: #selector(handleSelectProfilePhoto), for: .touchUpInside )
     return button
   }()
   
@@ -46,6 +49,7 @@ class SignUpVC: UIViewController {
     tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
     tf.borderStyle = .roundedRect
     tf.font = UIFont.systemFont(ofSize: 14)
+    tf.addTarget(self, action: #selector(formValidation), for: .editingChanged)
     return tf
   }()
   
@@ -56,6 +60,7 @@ class SignUpVC: UIViewController {
     tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
     tf.borderStyle = .roundedRect
     tf.font = UIFont.systemFont(ofSize: 14)
+    tf.addTarget(self, action: #selector(formValidation), for: .editingChanged)
     return tf
   }()
   
@@ -100,33 +105,160 @@ class SignUpVC: UIViewController {
 
     }
   
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    
+//    selected image
+    guard let profileImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+      imageSelected = false
+      return
+    }
+    
+//    set imageSelected to true
+    imageSelected = true
+    
+//    configure plusPhotoBtn with selected image
+    plusPhotoBtn.layer.cornerRadius = plusPhotoBtn.frame.width / 2
+    plusPhotoBtn.layer.masksToBounds = true
+    plusPhotoBtn.layer.borderColor = UIColor.black.cgColor
+    plusPhotoBtn.layer.borderWidth = 2
+    plusPhotoBtn.setImage(profileImage.withRenderingMode(.alwaysOriginal), for: .normal)
+    
+    self.dismiss(animated: true, completion: nil)
+  }
+  
+  @objc func handleSelectProfilePhoto() {
+    
+//    configure image picker
+    let imagePicker = UIImagePickerController()
+    imagePicker.delegate = self
+    imagePicker.allowsEditing = true
+    
+//    present image picker
+    self.present(imagePicker, animated: true, completion: nil)
+    
+  }
+  
   @objc func handleShowLogin() {
     _ = navigationController?.popViewController(animated: true)
   }
   
   @objc func handleSignUp() {
     
+    // properties
     guard let email = emailTextField.text else { return }
-    guard  let password = passwordTextField.text  else { return }
+    guard let password = passwordTextField.text else { return }
+    guard let fullName = fullNameTextField.text else { return }
+    guard let username = usernameTextField.text?.lowercased() else { return }
     
-    Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+    Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
       
-//      handle error
+      // handle error
       if let error = error {
-        print("Failed to create user with error", error.localizedDescription)
+        print("DEBUG: Failed to create user with error: ", error.localizedDescription)
         return
       }
       
-//      success
-      print("Successfully created user with Firebase")
+      guard let profileImg = self.plusPhotoBtn.imageView?.image else { return }
+      guard let uploadData = profileImg.jpegData(compressionQuality: 0.3) else { return }
+      
+      let filename = NSUUID().uuidString
+      
+      // UPDATE: - In order to get download URL must add filename to storage ref like this
+      
+      let storageRef = Storage.storage().reference().child("profile_images").child(filename)
+      
+      storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+        
+        // handle error
+        if let error = error {
+          print("Failed to upload image to Firebase Storage with error", error.localizedDescription)
+          return
+        }
+        
+        // UPDATE: - Firebase 5 must now retrieve download url
+        storageRef.downloadURL(completion: { (downloadURL, error) in
+          guard let profileImageUrl = downloadURL?.absoluteString else {
+            print("DEBUG: Profile image url is nil")
+            return
+          }
+          
+          // user id
+          guard let uid = authResult?.user.uid else { return }
+          let dictionaryValues = ["name": fullName,
+                                  "username": username,
+                                  "profileImageUrl": profileImageUrl]
+          
+          let values = [uid: dictionaryValues]
+          
+          // save user info to database
+          USER_REF.updateChildValues(values, withCompletionBlock: { (error, ref) in
+            
+            print("Success created user and saved information  in database")
+          })
+        })
+      })
     }
   }
+    
+////    properties
+//    guard let email = emailTextField.text else { return }
+//    guard  let password = passwordTextField.text  else { return }
+//    guard let fullName = fullNameTextField.text else { return }
+//    guard  let username = usernameTextField.text else { return }
+//
+//    Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+//
+////      handle error
+//      if let error = error {
+//        print("Failed to create user with error", error.localizedDescription)
+//        return
+//      }
+//
+////      set profile image
+//      guard let profileImg = self.plusPhotoBtn.imageView?.image else { return }
+//
+//      //    upload data
+//      guard let uploadData = UIImage.jpegData(compressionQuality: 0.3) else { return }
+//
+////      place image in firebase storage
+//      let filename = NSUUID().uuidString
+//      Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (uploadData, error) in
+//
+////        handle error
+//        if let error = error {
+//          print("Failed to upload image to firebase storage with error", error.localizedDescription)
+//        }
+//
+////        profile image url
+//        guard let profileImageURL = metadata?.downloadURL()?.absoluteString else { return }
+//
+//        let dictionaryValues = ["name": fullName,
+//                                "username": username,
+//                                "profileImageUrl": profileImageURL]
+//
+//        let values = [user?.uid: dictionaryValues]
+//
+////        save user info to database
+//        Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (error, ref) in
+//          print(<#T##items: Any...##Any#>)
+//        })
+//
+//
+//      })
+//
+////      success
+//      print("Successfully created user with Firebase")
+//    }
+//  }
   
   @objc func formValidation() {
     
     guard
         emailTextField.hasText,
-        passwordTextField.hasText else {
+        passwordTextField.hasText,
+        fullNameTextField.hasText,
+        usernameTextField.hasText,
+        imageSelected == true  else {
             SignUpButton.isEnabled = false
             SignUpButton.backgroundColor = UIColor(red: 149/255, green: 204/255, blue: 244/255, alpha: 1)
             return
