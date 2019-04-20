@@ -199,57 +199,6 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
       })
     }
   }
-    
-////    properties
-//    guard let email = emailTextField.text else { return }
-//    guard  let password = passwordTextField.text  else { return }
-//    guard let fullName = fullNameTextField.text else { return }
-//    guard  let username = usernameTextField.text else { return }
-//
-//    Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-//
-////      handle error
-//      if let error = error {
-//        print("Failed to create user with error", error.localizedDescription)
-//        return
-//      }
-//
-////      set profile image
-//      guard let profileImg = self.plusPhotoBtn.imageView?.image else { return }
-//
-//      //    upload data
-//      guard let uploadData = UIImage.jpegData(compressionQuality: 0.3) else { return }
-//
-////      place image in firebase storage
-//      let filename = NSUUID().uuidString
-//      Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (uploadData, error) in
-//
-////        handle error
-//        if let error = error {
-//          print("Failed to upload image to firebase storage with error", error.localizedDescription)
-//        }
-//
-////        profile image url
-//        guard let profileImageURL = metadata?.downloadURL()?.absoluteString else { return }
-//
-//        let dictionaryValues = ["name": fullName,
-//                                "username": username,
-//                                "profileImageUrl": profileImageURL]
-//
-//        let values = [user?.uid: dictionaryValues]
-//
-////        save user info to database
-//        Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (error, ref) in
-//          print(<#T##items: Any...##Any#>)
-//        })
-//
-//
-//      })
-//
-////      success
-//      print("Successfully created user with Firebase")
-//    }
-//  }
   
   @objc func formValidation() {
     
