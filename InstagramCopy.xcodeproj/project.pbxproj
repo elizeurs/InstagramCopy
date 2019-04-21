@@ -86,7 +86,6 @@
 				75E31E7D22655F9400C6AC1D /* View */,
 				75E31E7E22655F9D00C6AC1D /* Controller */,
 				75E31E6A22655F6300C6AC1D /* AppDelegate.swift */,
-				75E31E6E22655F6300C6AC1D /* Main.storyboard */,
 				75E31E7122655F6400C6AC1D /* Assets.xcassets */,
 				758E30782266CBC900130C52 /* GoogleService-Info.plist */,
 				75E31E7322655F6400C6AC1D /* LaunchScreen.storyboard */,
@@ -120,6 +119,7 @@
 				755FD13C226AD80E00282426 /* UploadPostVC.swift */,
 				755FD13E226AD85800282426 /* NotificationsVC.swift */,
 				755FD140226AD8E100282426 /* UserProfileVC.swift */,
+				75E31E6E22655F6300C6AC1D /* Main.storyboard */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

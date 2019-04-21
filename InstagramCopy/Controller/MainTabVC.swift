@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import Firebase
 
 class MainTabVC: UITabBarController, UITabBarControllerDelegate {
+  
+  //  MARK: - Properties
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +21,12 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
       
 //      configure view controller
       configureViewControllers()
+      
+//  user validation
+      checkIfUserIsLoggedIn()
     }
+  
+  //  MARK: - Handlers
   
 //  function to create view controllers that exist within tab bar controller
   func configureViewControllers() {
@@ -56,5 +64,18 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
     
 //    return nav controller
     return navController
+  }
+  
+  func checkIfUserIsLoggedIn() {
+    
+    if Auth.auth().currentUser == nil {
+      DispatchQueue.main.async {
+//        present login controller
+        let loginVC = LoginVC()
+        let navController = UINavigationController(rootViewController: loginVC)
+        self.present(navController, animated: true, completion: nil)
+      }
+      return
+    }
   }
 }
