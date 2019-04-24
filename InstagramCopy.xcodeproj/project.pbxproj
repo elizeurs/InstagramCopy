@@ -15,6 +15,7 @@
 		755FD13D226AD80E00282426 /* UploadPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755FD13C226AD80E00282426 /* UploadPostVC.swift */; };
 		755FD13F226AD85800282426 /* NotificationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755FD13E226AD85800282426 /* NotificationsVC.swift */; };
 		755FD141226AD8E100282426 /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755FD140226AD8E100282426 /* UserProfileVC.swift */; };
+		75859260226FE69400499226 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7585925F226FE69400499226 /* User.swift */; };
 		758E307722669F6800130C52 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758E307622669F6800130C52 /* SignUpVC.swift */; };
 		758E30792266CBC900130C52 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 758E30782266CBC900130C52 /* GoogleService-Info.plist */; };
 		75DE332D22695B2E00EC0DF5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DE332C22695B2E00EC0DF5 /* Constants.swift */; };
@@ -36,6 +37,7 @@
 		755FD13C226AD80E00282426 /* UploadPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostVC.swift; sourceTree = "<group>"; };
 		755FD13E226AD85800282426 /* NotificationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsVC.swift; sourceTree = "<group>"; };
 		755FD140226AD8E100282426 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
+		7585925F226FE69400499226 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		758E307622669F6800130C52 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		758E30782266CBC900130C52 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		75DE332C22695B2E00EC0DF5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -66,7 +68,6 @@
 			isa = PBXGroup;
 			children = (
 				755FD140226AD8E100282426 /* UserProfileVC.swift */,
-				7537427F226EA562000516A1 /* UserProfileHeader.swift */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
@@ -108,6 +109,7 @@
 		75E31E7C22655F8600C6AC1D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7585925F226FE69400499226 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -115,6 +117,7 @@
 		75E31E7D22655F9400C6AC1D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7537427F226EA562000516A1 /* UserProfileHeader.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75859260226FE69400499226 /* User.swift in Sources */,
 				755FD13D226AD80E00282426 /* UploadPostVC.swift in Sources */,
 				755FD13F226AD85800282426 /* NotificationsVC.swift in Sources */,
 				755FD13B226AD7B600282426 /* SearchVC.swift in Sources */,
