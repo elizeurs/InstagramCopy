@@ -17,6 +17,9 @@ class UserProfileHeader: UICollectionViewCell {
       let fullName = user?.name
       nameLabel.text = fullName
       
+      guard let profileImageUrl = user?.profileImageUrl else { return }
+      
+      profileImageView.loadImage(with: profileImageUrl)
     }
   }
   
