@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		63A07E74918EDF9725C094FB /* Pods_InstagramCopy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0CAB3E1AB945B2EDACF69DF /* Pods_InstagramCopy.framework */; };
+		75121F13227170EB00F256A3 /* SearchUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75121F12227170EB00F256A3 /* SearchUserCell.swift */; };
 		75374280226EA562000516A1 /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537427F226EA562000516A1 /* UserProfileHeader.swift */; };
 		755FD137226ACFE900282426 /* MainTabVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755FD136226ACFE900282426 /* MainTabVC.swift */; };
 		755FD139226AD77400282426 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755FD138226AD77400282426 /* FeedVC.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		3D29AE5658112786FEFC6030 /* Pods-InstagramCopy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramCopy.debug.xcconfig"; path = "Target Support Files/Pods-InstagramCopy/Pods-InstagramCopy.debug.xcconfig"; sourceTree = "<group>"; };
 		5A521F0DF89E7F53FDFDD461 /* Pods-InstagramCopy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramCopy.release.xcconfig"; path = "Target Support Files/Pods-InstagramCopy/Pods-InstagramCopy.release.xcconfig"; sourceTree = "<group>"; };
+		75121F12227170EB00F256A3 /* SearchUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserCell.swift; sourceTree = "<group>"; };
 		7537427F226EA562000516A1 /* UserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
 		755FD136226ACFE900282426 /* MainTabVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabVC.swift; sourceTree = "<group>"; };
 		755FD138226AD77400282426 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
@@ -64,6 +66,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		75121F0D22716BF200F256A3 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				755FD13A226AD7B600282426 /* SearchVC.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		75121F0E22716C1900F256A3 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				758E307622669F6800130C52 /* SignUpVC.swift */,
+				75E31E7F2265600C00C6AC1D /* LoginVC.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		75121F0F22716C3D00F256A3 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				755FD138226AD77400282426 /* FeedVC.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		75121F1022716C5B00F256A3 /* UploadPost */ = {
+			isa = PBXGroup;
+			children = (
+				755FD13C226AD80E00282426 /* UploadPostVC.swift */,
+			);
+			path = UploadPost;
+			sourceTree = "<group>";
+		};
+		75121F1122716C7600F256A3 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				755FD13E226AD85800282426 /* NotificationsVC.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 		7537427E226EA504000516A1 /* UserProfile */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				7537427F226EA562000516A1 /* UserProfileHeader.swift */,
+				75121F12227170EB00F256A3 /* SearchUserCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -125,14 +169,13 @@
 		75E31E7E22655F9D00C6AC1D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				75121F0E22716C1900F256A3 /* Login */,
+				75121F0F22716C3D00F256A3 /* Feed */,
+				75121F0D22716BF200F256A3 /* Search */,
+				75121F1022716C5B00F256A3 /* UploadPost */,
+				75121F1122716C7600F256A3 /* Notifications */,
 				7537427E226EA504000516A1 /* UserProfile */,
-				75E31E7F2265600C00C6AC1D /* LoginVC.swift */,
-				758E307622669F6800130C52 /* SignUpVC.swift */,
 				755FD136226ACFE900282426 /* MainTabVC.swift */,
-				755FD138226AD77400282426 /* FeedVC.swift */,
-				755FD13A226AD7B600282426 /* SearchVC.swift */,
-				755FD13C226AD80E00282426 /* UploadPostVC.swift */,
-				755FD13E226AD85800282426 /* NotificationsVC.swift */,
 				75E31E6E22655F6300C6AC1D /* Main.storyboard */,
 			);
 			path = Controller;
@@ -291,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75121F13227170EB00F256A3 /* SearchUserCell.swift in Sources */,
 				75859260226FE69400499226 /* User.swift in Sources */,
 				755FD13D226AD80E00282426 /* UploadPostVC.swift in Sources */,
 				755FD13F226AD85800282426 /* NotificationsVC.swift in Sources */,

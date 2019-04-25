@@ -47,7 +47,7 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
     let userProfileVC = constructNavController(unselectedImage: #imageLiteral(resourceName: "profile_unselected"), selectedImage: #imageLiteral(resourceName: "profile_selected"), rootViewController: UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout()))
     
 //    view controller to be added to tab controller
-    viewControllers = [feedVC, uploadPostVC, notificationVC, userProfileVC]
+    viewControllers = [feedVC, searchVC, uploadPostVC, notificationVC, userProfileVC]
     
 //    tab bar tint color
     tabBar.tintColor = .black
