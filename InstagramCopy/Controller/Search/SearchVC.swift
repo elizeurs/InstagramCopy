@@ -55,6 +55,16 @@ class SearchVC: UITableViewController {
     
     print("Usernaem is \(user.username)")
     
+//    create instance of user profile vc
+    let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
+    
+//    passes user from searchvc to userProfilevc
+    userProfileVC.userToLoadFromSearchVC = user
+    
+    
+//    push view controller
+    navigationController?.pushViewController(userProfileVC, animated: true)
+    
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
