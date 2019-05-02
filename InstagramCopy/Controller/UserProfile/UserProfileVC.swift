@@ -60,7 +60,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! UserProfileHeader
     
 //    set delegate
-    header.delegate = self
+//    header.delegate = self
     
 //    set the user in header
     if let user = self.currentUser {
