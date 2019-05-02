@@ -11,6 +11,10 @@ import Firebase
 
 class UserProfileHeader: UICollectionViewCell {
   
+  //  MARK: - Properties
+  
+  var delegate: UserProfileHeaderDelegate?
+  
   var user: User? {
     
     didSet {
@@ -72,7 +76,7 @@ class UserProfileHeader: UICollectionViewCell {
     return label
   }()
   
-  let editProfileFollowButton: UIButton = {
+  lazy var editProfileFollowButton: UIButton = {
     let button = UIButton(type: .system)
     button.setTitle("Loading", for: .normal)
     button.layer.cornerRadius = 3
@@ -80,6 +84,7 @@ class UserProfileHeader: UICollectionViewCell {
     button.layer.borderWidth = 0.5
     button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
     button.setTitleColor(.black, for: .normal)
+    button.addTarget(self, action: #selector(handleEditProfileFollow), for: .touchUpInside)
     return button
   }()
   
@@ -120,6 +125,27 @@ class UserProfileHeader: UICollectionViewCell {
     
     configureBottomToolBar()
     
+  }
+  
+  //  MARK: - Handlers
+  
+  @objc func handleEditProfileFollow() {
+    delegate?.handleEditFollowTapped(for: self)
+    
+//    guard let user = self.user else { return }
+//
+//    if editProfileFollowButton.titleLabel?.text == "Edit Profile" {
+//      print("Handle edit profile")
+//    } else {
+//
+//      if editProfileFollowButton.titleLabel?.text == "Follow" {
+//        editProfileFollowButton.setTitle("Following", for: .normal)
+//        user.follow()
+//      } else {
+//        editProfileFollowButton.setTitle("Follow", for: .normal)
+//        user.unfollow()
+//      }
+//    }
   }
   
   func configureBottomToolBar() {
@@ -170,10 +196,18 @@ class UserProfileHeader: UICollectionViewCell {
       
     } else {
       
-//      configure button as follow button
-      editProfileFollowButton.setTitle("Follow", for: .normal)
+      //      configure button as follow button
       editProfileFollowButton.setTitleColor(.white, for: .normal)
       editProfileFollowButton.backgroundColor = UIColor(red: 17/255, green: 154/255, blue: 237/255, alpha: 1)
+      
+      user.checkIfUserIsFollowed(completion: { (followed) in
+        
+        if followed {
+          self.editProfileFollowButton.setTitle("following", for: .normal)
+        } else {
+          self.editProfileFollowButton.setTitle("follow", for: .normal)
+        }
+      })
     }
   }
   

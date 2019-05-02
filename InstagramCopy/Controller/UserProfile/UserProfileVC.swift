@@ -12,7 +12,9 @@ import Firebase
 private let reuseIdentifier = "Cell"
 private let headerIdentifier = "UserProfileHeader"
 
-class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, UserProfileHeaderDelegate {
+
+  
   
   //  MARK: - Properties
   
@@ -57,6 +59,9 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
 //    declare header
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! UserProfileHeader
     
+//    set delegate
+    header.delegate = self
+    
 //    set the user in header
     if let user = self.currentUser {
         header.user = user
@@ -73,9 +78,33 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     
-    // Configure the cell
-    
     return cell
+  }
+  
+  //  MARK: - UserProfileHeader
+  
+  func handleEditFollowTapped(for header: UserProfileHeader) {
+    
+    guard let user = header.user else { return }
+    
+    if header.editProfileFollowButton.titleLabel?.text == "Edit Profile" {
+      
+      let editProfileController = EditProfileController()
+      editProfileController.user = user
+      editProfileController.userProfileController = self
+      let navigationController = UINavigationController(rootViewController: editProfileController)
+      present(navigationController, animated: true, completion: nil)
+      
+    } else {
+      
+      if header.editProfileFollowButton.titleLabel?.text == "Follow" {
+        header.editProfileFollowButton.setTitle("Following", for: .normal)
+        user.follow()
+      } else {
+        header.editProfileFollowButton.setTitle("Follow", for: .normal)
+        user.unfollow()
+      }
+    }
   }
   
   //  MARK: - API
