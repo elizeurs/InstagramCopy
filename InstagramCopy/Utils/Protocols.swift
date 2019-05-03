@@ -6,6 +6,10 @@
 //  Copyright © 2019 elizeurs. All rights reserved.
 //
 
+import Foundation
+
 protocol UserProfileHeaderDelegate {
+  
   func handleEditFollowTapped(for header: UserProfileHeader)
+  func setUserStats(for header: UserProfileHeader) 
 }

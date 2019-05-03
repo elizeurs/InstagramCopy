@@ -14,8 +14,6 @@ private let headerIdentifier = "UserProfileHeader"
 
 class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, UserProfileHeaderDelegate {
 
-  
-  
   //  MARK: - Properties
   
   var currentUser: User?
@@ -60,7 +58,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! UserProfileHeader
     
 //    set delegate
-//    header.delegate = self
+    header.delegate = self
     
 //    set the user in header
     if let user = self.currentUser {
@@ -81,19 +79,20 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     return cell
   }
   
-  //  MARK: - UserProfileHeader
+  //  MARK: - UserProfileHeader Protocol
   
   func handleEditFollowTapped(for header: UserProfileHeader) {
     
     guard let user = header.user else { return }
     
     if header.editProfileFollowButton.titleLabel?.text == "Edit Profile" {
+      print("Handle edit profile")
       
-      let editProfileController = EditProfileController()
-      editProfileController.user = user
-      editProfileController.userProfileController = self
-      let navigationController = UINavigationController(rootViewController: editProfileController)
-      present(navigationController, animated: true, completion: nil)
+//      let editProfileController = EditProfileController()
+//      editProfileController.user = user
+//      editProfileController.userProfileController = self
+//      let navigationController = UINavigationController(rootViewController: editProfileController)
+//      present(navigationController, animated: true, completion: nil)
       
     } else {
       
@@ -105,6 +104,45 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         user.unfollow()
       }
     }
+  }
+  
+  func setUserStats(for header: UserProfileHeader) {
+    
+    guard let uid = header.user?.uid else { return }
+    
+    var numberOfFollowers: Int!
+    var numberOfFollowing: Int!
+    
+    //    get number of followers
+    USER_FOLLOWER_REF.child(uid).observe(.value) { (snapshot) in
+      
+      if let snapshot = snapshot.value as? Dictionary<String, AnyObject> {
+        numberOfFollowers = snapshot.count
+      } else {
+        numberOfFollowers = 0
+      }
+      
+      let attributedText = NSMutableAttributedString(string: "\(numberOfFollowers!)\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+      attributedText.append(NSAttributedString(string: "followers", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
+      
+      header.followersLabel.attributedText = attributedText
+    }
+    
+    //    get number of following
+    USER_FOLLOWING_REF.child(uid).observe(.value) { (snapshot) in
+      
+      if let snapshot = snapshot.value as? Dictionary<String, AnyObject> {
+        numberOfFollowing = snapshot.count
+      } else {
+        numberOfFollowing = 0
+      }
+      
+      let attributedText = NSMutableAttributedString(string: "\(numberOfFollowing!)\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+      attributedText.append(NSAttributedString(string: "following", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
+      
+      header.followingLabel.attributedText = attributedText
+    }
+    
   }
   
   //  MARK: - API
