@@ -16,8 +16,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
 
   //  MARK: - Properties
   
-  var currentUser: User?
-  var userToLoadFromSearchVC: User?
+  var user: User?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -30,7 +29,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     self.collectionView?.backgroundColor = .white
     
     //      fetch user data
-    if userToLoadFromSearchVC == nil {
+    if self.user == nil {
       fetchCurrentUserData()
     }
   }
@@ -61,13 +60,8 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     header.delegate = self
     
 //    set the user in header
-    if let user = self.currentUser {
-        header.user = user
-    } else if let userToLoadFromSearchVC = self.userToLoadFromSearchVC {
-      header.user = userToLoadFromSearchVC
-      navigationItem.title = userToLoadFromSearchVC.username
-    }
-
+    header.user = self.user
+    navigationItem.title = user?.username
     
 //    return header
     return header
@@ -84,12 +78,14 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
   func handleFollowersTapped(for header: UserProfileHeader) {
     let followVC = FollowVC()
     followVC.viewFollowers = true
+    followVC.uid = user?.uid
     navigationController?.pushViewController(followVC, animated: true)
   }
   
  func handleFollowingTapped(for header: UserProfileHeader) {
   let followVC = FollowVC()
   followVC.viewFollowing = true
+  followVC.uid = user?.uid
   navigationController?.pushViewController(followVC, animated: true)
   }
   
@@ -167,7 +163,7 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
       guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
       let uid = snapshot.key
       let user = User(uid: uid, dictionary: dictionary)
-      self.currentUser = user
+      self.user = user
       self.navigationItem.title = user.username
       self.collectionView?.reloadData()
     }

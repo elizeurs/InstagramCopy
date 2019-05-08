@@ -57,7 +57,7 @@ class SearchVC: UITableViewController {
     let userProfileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
     
 //    passes user from searchvc to userProfilevc
-    userProfileVC.userToLoadFromSearchVC = user
+    userProfileVC.user = user
     
 //    push view controller
     navigationController?.pushViewController(userProfileVC, animated: true)
