@@ -163,20 +163,17 @@ class UserProfileVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     
     guard let currentUid = Auth.auth().currentUser?.uid else { return }
     
-    USER_POSTS_REF.child(currentUid).observe(.childAdded) { (snaphot) in
+    USER_POSTS_REF.child(currentUid).observe(.childAdded) { (snapshot) in
       
-      let postId = snaphot.key
+      let postId = snapshot.key
       
       POSTS_REF.child(postId).observeSingleEvent(of: .value, with: { (snapshot) in
         
-        guard let dictionary = snaphot.value as? Dictionary<String, AnyObject> else { return }
+        guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
         
         let post = Post(postId: postId, dictionary: dictionary)
         
         self.posts.append(post)
-        
-        print("Post caption is \(post.caption)")
-        
       })
     }
   }
