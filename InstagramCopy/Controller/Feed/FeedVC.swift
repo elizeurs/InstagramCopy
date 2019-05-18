@@ -11,36 +11,48 @@ import Firebase
 
 private let reuseIdentifier = "Cell"
 
-class FeedVC: UICollectionViewController {
+class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
   
   //  MARK: - Properties
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Register cell classes
-    self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    collectionView?.backgroundColor = .white
+    
+    // register cell classes
+    self.collectionView!.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     
     //      configure  logout button
-    configureLogoutButton()
+    configureNavigationBar()
+    
+  }
+  
+  //  MARK: - UICollectionViewFlowLayout
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    
+    let width = view.frame.width
+    var height = width + 8 + 40 + 8
+    height += 50
+    height += 60
+    
+    return CGSize(width: width, height: height)
     
   }
   
   // MARK: UICollectionViewDataSource
   
   override func numberOfSections(in collectionView: UICollectionView) -> Int {
-    // #warning Incomplete implementation, return the number of sections
-    return 0
+    return 1
   }
   
-  
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    // #warning Incomplete implementation, return the number of items
-    return 0
+    return 5
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell
     
     // Configure the cell
     
@@ -49,8 +61,16 @@ class FeedVC: UICollectionViewController {
   
   //  MARK: - Handlers
   
-  func configureLogoutButton() {
+  @objc func handleShowMessages() {
+    print("Handle show messages")
+  }
+  
+  func configureNavigationBar() {
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+    
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "send2"), style: .plain, target: self, action: #selector(handleShowMessages))
+    
+    self.navigationItem.title = "Feed"
   }
   
   @objc func handleLogout() {
