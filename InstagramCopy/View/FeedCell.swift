@@ -11,6 +11,8 @@ import Firebase
 
 class FeedCell: UICollectionViewCell {
   
+  var delegate: FeedCellDelegate?
+  
   var post: Post? {
     
     didSet {
@@ -37,19 +39,22 @@ class FeedCell: UICollectionViewCell {
     return iv
   }()
   
-  let usernameButton: UIButton = {
+  lazy var usernameButton: UIButton = {
     let button = UIButton(type: .system)
     button.setTitle("Username", for: .normal)
     button.setTitleColor(.black, for: .normal)
     button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+    button.addTarget(self, action: #selector(handleUsernameTapped), for: .touchUpInside)
     return button
   }()
   
-  let optionsButton: UIButton = {
+  lazy var optionsButton: UIButton = {
     let button = UIButton(type: .system)
     button.setTitle("•••", for: .normal)
     button.setTitleColor(.black, for: .normal)
     button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+    button.addTarget(self, action: #selector(handleOptionsTapped), for: .touchUpInside)
+
     return button
   }()
   
@@ -61,17 +66,19 @@ class FeedCell: UICollectionViewCell {
     return iv
   }()
   
-  let likeButton: UIButton = {
+  lazy var likeButton: UIButton = {
     let button = UIButton(type: .system)
     button.setImage(#imageLiteral(resourceName: "like_unselected"), for: .normal)
     button.tintColor = .black
+    button.addTarget(self, action: #selector(handleLikeTapped), for: .touchUpInside)
     return button
   }()
   
-  let commentButton: UIButton = {
+  lazy var commentButton: UIButton = {
     let button = UIButton(type: .system)
     button.setImage(#imageLiteral(resourceName: "comment"), for: .normal)
     button.tintColor = .black
+    button.addTarget(self, action: #selector(handleCommentTapped), for: .touchUpInside)
     return button
   }()
   
@@ -146,6 +153,24 @@ class FeedCell: UICollectionViewCell {
     
     addSubview(postTimeLabel)
     postTimeLabel.anchor(top: captionLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+  }
+  
+  //  MARK: - Handlers
+  
+  @objc func handleUsernameTapped() {
+    delegate?.handleUsernameTapped(for: self)
+  }
+  
+  @objc func handleOptionsTapped() {
+    delegate?.handleOptionsTapped(for: self)
+  }
+  
+  @objc func handleLikeTapped() {
+    delegate?.handleLikeTapped(for: self)
+  }
+  
+  @objc func handleCommentTapped() {
+    delegate?.handleCommentTapped(for: self)
   }
   
   func configurePostCaption(user: User) {
