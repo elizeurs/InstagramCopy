@@ -17,6 +17,8 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
   //  MARK: - Properties
   
   var posts = [Post]()
+  var viewSinglePost = false
+  var post: Post?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -30,8 +32,9 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     configureNavigationBar()
     
 //    fetch posts
-    fetchPosts()
-    
+    if !viewSinglePost {
+      fetchPosts()
+    }
   }
   
   //  MARK: - UICollectionViewFlowLayout
@@ -54,7 +57,12 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return posts.count
+    
+    if viewSinglePost {
+      return 1
+    } else {
+      return posts.count
+    }
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -62,7 +70,13 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     
     cell.delegate = self
     
-    cell.post = posts[indexPath.row]
+    if viewSinglePost {
+      if let post = self.post {
+        cell.post = post
+      }
+    } else {
+        cell.post = posts[indexPath.item]
+    }
     
     return cell
   }
@@ -99,7 +113,10 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
   }
   
   func configureNavigationBar() {
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+    
+    if !viewSinglePost {
+          self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+    }
     
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "send2"), style: .plain, target: self, action: #selector(handleShowMessages))
     
@@ -141,6 +158,8 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
   //  MARK: - API
   
   func fetchPosts() {
+    
+    print("fetch post function called")
     
     POSTS_REF.observe(.childAdded) { (snapshot) in
       
