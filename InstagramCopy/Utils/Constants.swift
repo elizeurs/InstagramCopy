@@ -20,8 +20,13 @@ let USER_FOLLOWING_REF = DB_REF.child("user-following")
 let POSTS_REF = DB_REF.child("posts")
 let USER_POSTS_REF = DB_REF.child("user-posts")
 
+let USER_FEED_REF = DB_REF.child("user-feed")
+
+
 // MARK: - Storage References
 
 let STORAGE_POST_IMAGES_REF = STORAGE_REF.child("post_images")
+
+
 
 
