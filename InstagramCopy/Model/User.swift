@@ -51,6 +51,12 @@ class User {
     
     //    add current user to followed user-follower structure
     USER_FOLLOWER_REF.child(uid).updateChildValues([currentUid: 1])
+    
+//    add followed users posts to current user-feed
+    USER_POSTS_REF.child(self.uid).observe(.childAdded) { (snapshot) in
+      let postId = snapshot.key
+      USER_FEED_REF.child(currentUid).updateChildValues([postId: 1])
+    }
   }
   
   func unfollow() {
@@ -67,6 +73,13 @@ class User {
     
     //    remove current user from user-following structure
     USER_FOLLOWER_REF.child(uid).child(currentUid).removeValue()
+    
+//    remove unfollowed users posts from current user-feed
+    USER_POSTS_REF.child(self.uid).observe(.childAdded) { (snapshot) in
+      let postId = snapshot.key
+      USER_FEED_REF.child(currentUid).child(postId).removeValue()
+      
+    }
   }
   
   

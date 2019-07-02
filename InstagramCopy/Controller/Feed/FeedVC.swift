@@ -28,6 +28,11 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     // register cell classes
     self.collectionView!.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     
+//    configure refresh control
+    let refreshControl = UIRefreshControl()
+    refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+    collectionView?.refreshControl = refreshControl
+    
     //      configure  logout button
     configureNavigationBar()
     
@@ -35,6 +40,9 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
     if !viewSinglePost {
       fetchPosts()
     }
+    
+    updateUserFeeds()
+    
   }
   
   //  MARK: - UICollectionViewFlowLayout
@@ -108,6 +116,12 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
   
   //  MARK: - Handlers
   
+  @objc func handleRefresh() {
+    posts.removeAll(keepingCapacity: false)
+    fetchPosts()
+    collectionView?.reloadData()
+  }
+  
   @objc func handleShowMessages() {
     print("Handle show messages")
   }
@@ -157,6 +171,32 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
   
   //  MARK: - API
   
+  func updateUserFeeds() {
+    
+    guard let currentUid = Auth.auth().currentUser?.uid else { return }
+    
+    USER_FOLLOWING_REF.child(currentUid).observe(.childAdded) { (snapshot) in
+      
+      let followingUserId = snapshot.key
+      
+      USER_POSTS_REF.child(followingUserId).observe(.childAdded, with: { (snaphot) in
+        
+        let postId = snapshot.key
+        
+        USER_FEED_REF.child(currentUid).updateChildValues([postId: 1])
+        
+      })
+    }
+    
+    USER_POSTS_REF.child(currentUid).observe(.childAdded) { (snaphot) in
+      
+      let postId = snaphot.key
+      
+      USER_FEED_REF.child(currentUid).updateChildValues([postId: 1])
+      
+    }
+  }
+  
   func fetchPosts() {
     
     guard let currentId = Auth.auth().currentUser?.uid else { return }
@@ -172,6 +212,9 @@ class FeedVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Fe
         self.posts.sort(by: { (post1, post2) -> Bool in
           return post1.creationDate > post2.creationDate
         })
+        
+//        stop refreshing
+        self.collectionView?.refreshControl?.endRefreshing()
         
         self.collectionView?.reloadData()
       })
